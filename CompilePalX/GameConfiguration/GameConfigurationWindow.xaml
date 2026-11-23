@@ -1,4 +1,4 @@
-﻿<controls:MetroWindow x:Class="CompilePalX.GameConfigurationWindow"
+<controls:MetroWindow Style="{StaticResource CompilePal.Window}" x:Class="CompilePalX.GameConfigurationWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
@@ -7,11 +7,7 @@
         xmlns:sys="clr-namespace:System;assembly=System.Runtime"
         xmlns:local="clr-namespace:CompilePalX"
         Title="Game Configuration" Height="444" Width="564"
-                      BorderBrush="{DynamicResource MahApps.Brushes.Accent}" BorderThickness="1" 
-                      IconEdgeMode="Aliased" Icon="..\CompilePalIcon.ico" ShowIconOnTitleBar="False" >
-    <controls:MetroWindow.WindowButtonCommands>
-        <controls:WindowButtonCommands LightCloseButtonStyle="{StaticResource LightButtonStyle}" LightMinButtonStyle="{StaticResource LightButtonStyle}" LightMaxButtonStyle="{StaticResource LightButtonStyle}"/>
-    </controls:MetroWindow.WindowButtonCommands>
+                      IconEdgeMode="Aliased" Icon="..\CompilePalIcon.ico" ShowIconOnTitleBar="False">
 
     <Grid>
         <ScrollViewer VerticalScrollBarVisibility="Auto">

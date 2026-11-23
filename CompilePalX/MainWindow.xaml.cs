@@ -111,7 +111,6 @@ namespace CompilePalX
             ErrorFinder.Init();
 
             ConfigurationManager.AssembleParameters();
-            ConfigurationManager.LoadSettings();
 
             ProgressManager.TitleChange += ProgressManager_TitleChange;
             ProgressManager.ProgressChange += ProgressManager_ProgressChange;
@@ -213,26 +212,15 @@ namespace CompilePalX
             {
                 Hyperlink errorLink = new Hyperlink();
 
-                Run text = new Run(errorText)
-                {
-                    Foreground = e.ErrorColor
-                };
-
-                errorLink.Inlines.Add(text);
+                errorLink.SetResourceReference(TextElement.ForegroundProperty, Error.GetSeverityResourceKey(e.Severity));
+                errorLink.Inlines.Add(new Run(errorText));
                 if (e.ID >= 0)
                 {
                     errorLink.DataContext = e;
                     errorLink.Click += errorLink_Click;
                 }
 
-                var underline = new TextDecoration
-                {
-                    Location = TextDecorationLocation.Underline,
-                    Pen = new Pen(e.ErrorColor, 1),
-                    PenThicknessUnit = TextDecorationUnit.FontRecommended
-                };
-
-                errorLink.TextDecorations = new TextDecorationCollection([underline]);
+                errorLink.TextDecorations = TextDecorations.Underline;
 
                 OutputParagraph.Inlines.Add(errorLink);
                 CompileOutputTextbox.ScrollToEnd();
@@ -249,7 +237,7 @@ namespace CompilePalX
         }
         
 
-        Run? Logger_OnWrite(string s, Brush? b = null, int? fontWeight = null)
+        Run? Logger_OnWrite(string s, string? brushKey = null, int? fontWeight = null)
         {
             return Dispatcher.Invoke(() =>
             {
@@ -258,8 +246,8 @@ namespace CompilePalX
 
                 Run textRun = new Run(s);
 
-                if (b != null)
-                    textRun.Foreground = b;
+                if (brushKey != null)
+                    textRun.SetResourceReference(TextElement.ForegroundProperty, brushKey);
 
                 if (fontWeight != null)
                     textRun.FontWeight = FontWeight.FromOpenTypeWeight((int)fontWeight);
@@ -298,10 +286,8 @@ namespace CompilePalX
                 };
                 link.RequestNavigate += Link_RequestNavigate;
 
-                Run textRun = new Run(s)
-                {
-                    Foreground = FindResource("CompilePal.Brushes.Link") as Brush
-                };
+                link.SetResourceReference(TextElement.ForegroundProperty, "CompilePal.Brushes.Link");
+                Run textRun = new Run(s);
                 if (fontWeight != null)
                 {
                     textRun.FontWeight = FontWeight.FromOpenTypeWeight((int)fontWeight);
@@ -442,8 +428,7 @@ namespace CompilePalX
             FilterPresetButton.IsEnabled = false;
             PresetConfigListBox.IsEnabled = false;
 
-            AddMapButton.IsEnabled = false;
-            RemoveMapButton.IsEnabled = false;
+            MapActions.IsEnabled = false;
 
             // hide update link so elapsed time can be shown
             UpdateLabel.Visibility = Visibility.Collapsed;
@@ -474,8 +459,7 @@ namespace CompilePalX
             FilterPresetButton.IsEnabled = true;
             PresetConfigListBox.IsEnabled = true;
 
-            AddMapButton.IsEnabled = true;
-            RemoveMapButton.IsEnabled = true;
+            MapActions.IsEnabled = true;
 
             TimeElapsedLabel.Visibility = Visibility.Collapsed;
             elapsedTimeDispatcherTimer.IsEnabled = false;
@@ -797,7 +781,7 @@ namespace CompilePalX
                     ProcessTab.Visibility = Visibility.Visible;
 
                     //Hide parameter buttons if ORDER is the current tab
-                    if ((string)(ProcessTab.SelectedItem as TabItem)?.Header == "ORDER")
+                    if (ProcessTab.SelectedItem == OrderTab)
                     {
                         AddParameterButton.Visibility = Visibility.Hidden;
                         AddParameterButton.IsEnabled = false;
@@ -1143,7 +1127,7 @@ namespace CompilePalX
 
         private void SettingsButton_Click(object sender, RoutedEventArgs e)
         {
-            new SettingsWindow().Show();
+            new SettingsWindow { Owner = this }.ShowDialog();
         }
 
         protected override void OnSourceInitialized(EventArgs e)

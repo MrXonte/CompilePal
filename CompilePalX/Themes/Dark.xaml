@@ -1,0 +1,37 @@
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <SolidColorBrush x:Key="CompilePal.Brushes.Canvas" Color="#17191E" />
+    <SolidColorBrush x:Key="CompilePal.Brushes.Surface" Color="#21242B" />
+    <SolidColorBrush x:Key="CompilePal.Brushes.Subtle" Color="#292D35" />
+    <SolidColorBrush x:Key="CompilePal.Brushes.Border" Color="#393E47" />
+    <SolidColorBrush x:Key="CompilePal.Brushes.Text" Color="#F2F3F5" />
+    <SolidColorBrush x:Key="CompilePal.Brushes.Muted" Color="#AEB5C2" />
+    <SolidColorBrush x:Key="CompilePal.Brushes.Accent" Color="#FFA17A" />
+    <SolidColorBrush x:Key="CompilePal.Brushes.AccentSoft" Color="#442F29" />
+    <SolidColorBrush x:Key="CompilePal.Brushes.OnAccent" Color="#291810" />
+    <SolidColorBrush x:Key="CompilePal.Brushes.AccentHover" Color="#FFB89B" />
+    <SolidColorBrush x:Key="CompilePal.Brushes.CheckboxDisabled" Color="#565D69" />
+    <SolidColorBrush x:Key="CompilePal.Brushes.Link" Color="#8EC7FA" />
+    <SolidColorBrush x:Key="CompilePal.Brushes.Warning" Color="#F6C46E" />
+    <SolidColorBrush x:Key="CompilePal.Brushes.Success" Color="#8AD2A0" />
+    <SolidColorBrush x:Key="CompilePal.Brushes.Severity1" Color="#99C2FF" />
+    <SolidColorBrush x:Key="CompilePal.Brushes.Severity2" Color="#E6C36D" />
+    <SolidColorBrush x:Key="CompilePal.Brushes.Severity3" Color="#FFB073" />
+    <SolidColorBrush x:Key="CompilePal.Brushes.Severity4" Color="#FF9387" />
+    <SolidColorBrush x:Key="CompilePal.Brushes.Severity5" Color="#FF9BB5" />
+
+    <StaticResourceExtension x:Key="MahApps.Brushes.Accent" ResourceKey="CompilePal.Brushes.Accent" />
+    <StaticResourceExtension x:Key="MahApps.Brushes.Highlight" ResourceKey="CompilePal.Brushes.Accent" />
+    <StaticResourceExtension x:Key="MahApps.Brushes.Progress" ResourceKey="CompilePal.Brushes.Accent" />
+    <StaticResourceExtension x:Key="MahApps.Brushes.IdealForeground" ResourceKey="CompilePal.Brushes.OnAccent" />
+    <StaticResourceExtension x:Key="MahApps.Brushes.ThemeBackground" ResourceKey="CompilePal.Brushes.Surface" />
+    <StaticResourceExtension x:Key="MahApps.Brushes.ThemeForeground" ResourceKey="CompilePal.Brushes.Text" />
+    <StaticResourceExtension x:Key="MahApps.Brushes.Text" ResourceKey="CompilePal.Brushes.Text" />
+    <StaticResourceExtension x:Key="MahApps.Brushes.Gray" ResourceKey="CompilePal.Brushes.Muted" />
+    <StaticResourceExtension x:Key="MahApps.Brushes.DataGrid.Selection.Background" ResourceKey="CompilePal.Brushes.AccentSoft" />
+    <StaticResourceExtension x:Key="MahApps.Brushes.DataGrid.Selection.Background.Inactive" ResourceKey="CompilePal.Brushes.AccentSoft" />
+    <StaticResourceExtension x:Key="MahApps.Brushes.DataGrid.Selection.Text" ResourceKey="CompilePal.Brushes.Accent" />
+    <StaticResourceExtension x:Key="MahApps.Brushes.DataGrid.Selection.Text.Inactive" ResourceKey="CompilePal.Brushes.Accent" />
+    <StaticResourceExtension x:Key="MahApps.Brushes.DataGrid.Selection.Text.MouseOver" ResourceKey="CompilePal.Brushes.Text" />
+    <StaticResourceExtension x:Key="MahApps.Brushes.DataGrid.Selection.Background.MouseOver" ResourceKey="CompilePal.Brushes.Subtle" />
+</ResourceDictionary>

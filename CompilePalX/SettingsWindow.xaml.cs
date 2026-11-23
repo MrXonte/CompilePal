@@ -1,36 +1,36 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+using System;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 using CompilePalX.Configuration;
 
 namespace CompilePalX
 {
-    /// <summary>
-    /// Interaction logic for Settings.xaml
-    /// </summary>
     public partial class SettingsWindow
     {
         public SettingsWindow()
         {
-            this.DataContext = ConfigurationManager.Settings.Clone();
             InitializeComponent();
+            DataContext = ConfigurationManager.Settings.Clone();
+        }
+
+        private void AppearancePicker_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (((ListBox)sender).SelectedValue is string preference)
+                ((App)Application.Current).ApplyAppearance(preference);
         }
 
         private void SaveButton_Click(object sender, RoutedEventArgs e)
         {
-            ConfigurationManager.SaveSettings((Settings) this.DataContext);
+            ConfigurationManager.SaveSettings((Settings)DataContext);
             Close();
+        }
+
+        protected override void OnClosed(EventArgs e)
+        {
+            ((App)Application.Current).ApplyAppearance(ConfigurationManager.Settings.Appearance);
+            base.OnClosed(e);
         }
 
         private readonly Regex numberRegex = new Regex("[^0-9]+");

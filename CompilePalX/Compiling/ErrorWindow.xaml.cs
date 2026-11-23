@@ -28,6 +28,8 @@ namespace CompilePalX.Compiling
             InitializeComponent();
 
             ErrorBrowser.Navigating += ErrorBrowser_Navigating;
+            ErrorBrowser.LoadCompleted += (_, _) => ApplyBrowserColors();
+            ((App)Application.Current).AppearanceChanged += OnAppearanceChanged;
 
             // extract values from error message using regex and insert them into the template  
             var html = error.Message;
@@ -46,6 +48,31 @@ namespace CompilePalX.Compiling
             }
 
             ErrorBrowser.NavigateToString(html);
+        }
+
+        private void OnAppearanceChanged(object? sender, EventArgs e) => ApplyBrowserColors();
+
+        private void ApplyBrowserColors()
+        {
+            dynamic? document = ErrorBrowser.Document;
+            if (document?.body == null)
+                return;
+
+            string CssColor(string key)
+            {
+                var color = ((SolidColorBrush)FindResource($"CompilePal.Brushes.{key}")).Color;
+                return $"#{color.R:X2}{color.G:X2}{color.B:X2}";
+            }
+
+            document.body.style.backgroundColor = CssColor("Surface");
+            document.body.style.color = CssColor("Text");
+            document.linkColor = document.vlinkColor = CssColor("Link");
+        }
+
+        protected override void OnClosed(EventArgs e)
+        {
+            ((App)Application.Current).AppearanceChanged -= OnAppearanceChanged;
+            base.OnClosed(e);
         }
 
         void ErrorBrowser_Navigating(object sender, NavigatingCancelEventArgs e)

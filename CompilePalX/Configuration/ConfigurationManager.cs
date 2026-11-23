@@ -302,14 +302,15 @@ namespace CompilePalX
                 return;
             }
 
-            var settings = JsonConvert.DeserializeObject<Settings>(File.ReadAllText(SettingsFile));
-            if (settings is null)
+            try
             {
-                CompilePalLogger.LogLine("Failed to load settings, falling back to default");
-                return;
+                Settings = JsonConvert.DeserializeObject<Settings>(File.ReadAllText(SettingsFile)) ?? new Settings();
             }
-
-            Settings = settings;
+            catch (Exception ex) when (ex is JsonException or IOException or UnauthorizedAccessException)
+            {
+                Settings = new Settings();
+                CompilePalLogger.LogLine($"Failed to load settings, falling back to defaults: {ex.Message}");
+            }
         }
 
         public static void SavePresets()

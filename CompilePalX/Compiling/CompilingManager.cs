@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
@@ -93,7 +93,7 @@ namespace CompilePalX
                 //We're currently in the thread we would like to kill, so make sure we invoke from the window thread to do this.
                 MainWindow.ActiveDispatcher.Invoke(() =>
                 {
-                    CompilePalLogger.LogLineColor("An error cancelled the compile.", Error.GetSeverityBrush(5));
+                    CompilePalLogger.LogLineColor("An error cancelled the compile.", Error.GetSeverityResourceKey(5));
                     CancelCompile();
                     ProgressManager.ErrorProgress();
                 });
@@ -211,13 +211,13 @@ namespace CompilePalX
         private static void postCompile(List<MapErrors> errors)
         {
             CompilePalLogger.LogLineColor(
-	            $"'{ConfigurationManager.CurrentPreset!.Name}' compile finished in {compileTimeStopwatch.Elapsed.ToString(@"hh\:mm\:ss")}", (Brush) Application.Current.TryFindResource("CompilePal.Brushes.Success"));
+	            $"'{ConfigurationManager.CurrentPreset!.Name}' compile finished in {compileTimeStopwatch.Elapsed.ToString(@"hh\:mm\:ss")}", "CompilePal.Brushes.Success");
 
             if (errors != null && errors.Any())
             {
                 int numErrors = errors.Sum(e => e.Errors.Count);
                 int maxSeverity = errors.Max(e => e.Errors.Any() ? e.Errors.Max(e2 => e2.Severity) : 0);
-                CompilePalLogger.LogLineColor("{0} errors/warnings logged:", Error.GetSeverityBrush(maxSeverity), numErrors);
+                CompilePalLogger.LogLineColor("{0} errors/warnings logged:", Error.GetSeverityResourceKey(maxSeverity), numErrors);
 
                 foreach (var map in errors)
                 {
@@ -225,12 +225,12 @@ namespace CompilePalX
 
                     if (!map.Errors.Any())
                     {
-                        CompilePalLogger.LogLineColor("No errors/warnings logged for {0}", Error.GetSeverityBrush(0), map.MapName);
+                        CompilePalLogger.LogLineColor("No errors/warnings logged for {0}", Error.GetSeverityResourceKey(0), map.MapName);
                         continue;
                     }
 
                     int mapMaxSeverity = map.Errors.Max(e => e.Severity);
-                    CompilePalLogger.LogLineColor("{0} errors/warnings logged for {1}:", Error.GetSeverityBrush(mapMaxSeverity), map.Errors.Count, map.MapName);
+                    CompilePalLogger.LogLineColor("{0} errors/warnings logged for {1}:", Error.GetSeverityResourceKey(mapMaxSeverity), map.Errors.Count, map.MapName);
 
                     var distinctErrors = map.Errors.GroupBy(e => e.ID).OrderBy(e => e.First().Severity);
                     foreach (var errorList in distinctErrors)
@@ -272,7 +272,7 @@ namespace CompilePalX
 
             ProgressManager.SetProgress(0);
 
-            CompilePalLogger.LogLineColor("Compile forcefully ended.", (Brush) Application.Current.TryFindResource("CompilePal.Brushes.Severity4"));
+            CompilePalLogger.LogLineColor("Compile forcefully ended.", "CompilePal.Brushes.Severity4");
 
             postCompile(null);
         }

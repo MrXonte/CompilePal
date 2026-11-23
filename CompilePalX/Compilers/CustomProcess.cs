@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -199,7 +199,7 @@ namespace CompilePalX.Compilers
 		private void ProcessOnErrorDataReceived(object sender, DataReceivedEventArgs e)
 		{
 			if (e.Data != null)
-				CompilePalLogger.LogLineColor(e.Data, Error.GetSeverityBrush(4));
+				CompilePalLogger.LogLineColor(e.Data, Error.GetSeverityResourceKey(4));
 		}
 
 		private void ProcessOnOutputDataReceived(object sender, DataReceivedEventArgs e)

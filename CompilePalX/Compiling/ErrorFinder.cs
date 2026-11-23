@@ -196,15 +196,11 @@ namespace CompilePalX
 
         public static Brush GetSeverityBrush(int severity)
         {
-            return severity switch
-            {
-                2 => (Brush)Application.Current.TryFindResource("CompilePal.Brushes.Severity2"),
-                3 => (Brush)Application.Current.TryFindResource("CompilePal.Brushes.Severity3"),
-                4 => (Brush)Application.Current.TryFindResource("CompilePal.Brushes.Severity4"),
-                5 => (Brush)Application.Current.TryFindResource("CompilePal.Brushes.Severity5"),
-                _ => (Brush)Application.Current.TryFindResource("CompilePal.Brushes.Severity1"),
-            };
+            return (Brush)Application.Current.FindResource(GetSeverityResourceKey(severity));
         }
+
+        internal static string GetSeverityResourceKey(int severity) =>
+            $"CompilePal.Brushes.Severity{(severity is >= 1 and <= 5 ? severity : 1)}";
 
         public string SeverityText
         {

@@ -8,9 +8,12 @@
 
 <p align="center">Compile Pal is an easy to use wrapper for the Source Engine map compiling tools.</p>
 
-![image](https://user-images.githubusercontent.com/15372675/219901251-38a9dc7a-ab95-42c4-9794-e811521a5e89.png)
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="Guides/images/workspace-dark.png">
+  <img alt="Compile Pal workspace with two maps in the queue and the VRAD lighting parameters selected" src="Guides/images/workspace-light.png">
+</picture>
 
-
+Compile Pal follows your Windows app color setting by default. Open **Settings → Appearance** from the game library or the compile workspace to choose **System**, **Light**, or **Dark**.
 
 ## Downloads
 

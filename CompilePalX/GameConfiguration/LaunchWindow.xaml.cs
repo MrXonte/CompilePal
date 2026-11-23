@@ -117,6 +117,11 @@ namespace CompilePalX
 	        base.OnClosing(e);
         }
 
+        private void SettingsButton_Click(object sender, RoutedEventArgs e)
+        {
+            new SettingsWindow { Owner = this }.ShowDialog();
+        }
+
         private void AddButton_OnClick(object sender, RoutedEventArgs e)
         {
             GameConfigurationWindow.Instance.Open();

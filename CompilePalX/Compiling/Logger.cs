@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Globalization;
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 
 namespace CompilePalX.Compiling
 {
-    internal delegate Run? LogWrite(string s, Brush? b, int? fontWeight);
+    internal delegate Run? LogWrite(string s, string? brushKey, int? fontWeight);
     internal delegate Run? LogWriteURL(string s, string url, int? fontWeight);
     internal delegate void LogBacktrack(List<Run> l);
     internal delegate void CompileErrorLogWrite(string errorText, Error e);
@@ -48,7 +48,7 @@ namespace CompilePalX.Compiling
         public static event CompileErrorFound OnErrorFound;
 
 
-        public static Run LogColor(string s, Brush? b, int? fontWeight, params object[] formatStrings)
+        public static Run LogColor(string s, string? brushKey, int? fontWeight, params object[] formatStrings)
         {
             string text = s;
             if (formatStrings.Length != 0)
@@ -63,13 +63,13 @@ namespace CompilePalX.Compiling
             }
             catch { }
 
-            return OnWrite?.Invoke(text, b, fontWeight);
+            return OnWrite?.Invoke(text, brushKey, fontWeight);
         }
 
 
-        public static Run LogLineColor(string s, Brush b, params object[] formatStrings)
+        public static Run LogLineColor(string s, string brushKey, params object[] formatStrings)
         {
-            return LogColor(s + Environment.NewLine, b, null, formatStrings);
+            return LogColor(s + Environment.NewLine, brushKey, null, formatStrings);
         }
 
         public static Run? Log(string s = "", params object[] formatStrings)

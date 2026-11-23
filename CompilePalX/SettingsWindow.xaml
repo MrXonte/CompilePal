@@ -1,34 +1,94 @@
-﻿<controls:MetroWindow x:Class="CompilePalX.SettingsWindow"
+<controls:MetroWindow x:Class="CompilePalX.SettingsWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
-        xmlns:local="clr-namespace:CompilePalX"
-        mc:Ignorable="d"
-        Title="Settings"
-          IconEdgeMode="Aliased" ShowIconOnTitleBar="False"
-          Height="450" Width="800"
-          MinHeight="450" MinWidth="800"
-          BorderBrush="{DynamicResource MahApps.Brushes.Accent}" BorderThickness="1" >
-    <controls:MetroWindow.WindowButtonCommands>
-        <controls:WindowButtonCommands LightCloseButtonStyle="{StaticResource LightButtonStyle}" LightMinButtonStyle="{StaticResource LightButtonStyle}" LightMaxButtonStyle="{StaticResource LightButtonStyle}"/>
-    </controls:MetroWindow.WindowButtonCommands>
-    <Grid Margin="20">
+        xmlns:icons="http://metro.mahapps.com/winfx/xaml/iconpacks"
+        xmlns:config="clr-namespace:CompilePalX.Configuration"
+        Style="{StaticResource CompilePal.Window}" Title="Settings" ShowIconOnTitleBar="False"
+        WindowStartupLocation="CenterOwner" Height="526" Width="600" MinHeight="380" MinWidth="450">
+    <Grid Margin="24,18,24,18">
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>
-            <RowDefinition Height="auto"/>
+            <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
         <ScrollViewer VerticalScrollBarVisibility="Auto">
-            <StackPanel Orientation="Vertical" FocusManager.FocusedElement="{Binding ElementName=ErrorSourceURL}">
-                <TextBox Template="{StaticResource LabeledTextbox}" Text="{Binding Path=ErrorSourceURL, Mode=TwoWay}" Tag="Error Source" Name="ErrorSourceURL"/>
-                <TextBox Template="{StaticResource LabeledTextbox}" Text="{Binding Path=ErrorCacheExpirationDays , Mode=TwoWay}" Tag="Error Cache Duration" Name="ErrorCacheDurationDays" ToolTip="How many days to cache error information" PreviewTextInput="ErrorCacheDurationDays_PreviewTextInput"/>
-                <StackPanel Margin="0, 0, 0, 5" HorizontalAlignment="Left">
-                    <Label Padding="0, 5 5, 5" Margin="0, 0, -5, 0" IsTabStop="False">Play Sound On Compile Completion</Label>
-                    <CheckBox IsChecked="{Binding Path=PlaySoundOnCompileCompletion, Mode=TwoWay}" Focusable="True" HorizontalAlignment="Left"/>
-                </StackPanel>
+            <StackPanel>
+                <TextBlock Style="{StaticResource CompilePal.Heading}" Text="Appearance"/>
+                <TextBlock Text="System follows your Windows app color setting." Margin="0,3,0,14"
+                           Foreground="{DynamicResource CompilePal.Brushes.Muted}"/>
+                <ListBox Name="AppearancePicker" BorderThickness="0" Background="Transparent"
+                         AutomationProperties.Name="Appearance" SelectionMode="Single"
+                         SelectedValuePath="Tag" SelectedValue="{Binding Appearance, Mode=TwoWay}"
+                         SelectionChanged="AppearancePicker_SelectionChanged" Margin="0,0,0,22">
+                    <ListBox.ItemsPanel>
+                        <ItemsPanelTemplate><UniformGrid Rows="1"/></ItemsPanelTemplate>
+                    </ListBox.ItemsPanel>
+                    <ListBox.ItemContainerStyle>
+                        <Style TargetType="ListBoxItem">
+                            <Setter Property="Margin" Value="0,0,6,0"/>
+                            <Setter Property="Foreground" Value="{DynamicResource CompilePal.Brushes.Text}"/>
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate TargetType="ListBoxItem">
+                                        <Border Name="Tile" BorderThickness="1" CornerRadius="6" Padding="12"
+                                                BorderBrush="{DynamicResource CompilePal.Brushes.Border}"
+                                                Background="{DynamicResource CompilePal.Brushes.Surface}">
+                                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                        </Border>
+                                        <ControlTemplate.Triggers>
+                                            <Trigger Property="IsMouseOver" Value="True">
+                                                <Setter TargetName="Tile" Property="Background" Value="{DynamicResource CompilePal.Brushes.Subtle}"/>
+                                            </Trigger>
+                                            <Trigger Property="IsSelected" Value="True">
+                                                <Setter TargetName="Tile" Property="Background" Value="{DynamicResource CompilePal.Brushes.AccentSoft}"/>
+                                                <Setter TargetName="Tile" Property="BorderBrush" Value="{DynamicResource CompilePal.Brushes.Accent}"/>
+                                                <Setter Property="Foreground" Value="{DynamicResource CompilePal.Brushes.Accent}"/>
+                                                <Setter Property="FontWeight" Value="SemiBold"/>
+                                            </Trigger>
+                                        </ControlTemplate.Triggers>
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                        </Style>
+                    </ListBox.ItemContainerStyle>
+                    <ListBoxItem Tag="{x:Static config:Settings.SystemAppearance}" AutomationProperties.Name="System">
+                        <StackPanel Orientation="Horizontal">
+                            <icons:PackIconMaterial Kind="Monitor" VerticalAlignment="Center"/>
+                            <TextBlock Text="System" Margin="8,0,0,0"/>
+                        </StackPanel>
+                    </ListBoxItem>
+                    <ListBoxItem Tag="{x:Static config:Settings.LightAppearance}" AutomationProperties.Name="Light">
+                        <StackPanel Orientation="Horizontal">
+                            <icons:PackIconMaterial Kind="WhiteBalanceSunny" VerticalAlignment="Center"/>
+                            <TextBlock Text="Light" Margin="8,0,0,0"/>
+                        </StackPanel>
+                    </ListBoxItem>
+                    <ListBoxItem Tag="{x:Static config:Settings.DarkAppearance}" AutomationProperties.Name="Dark">
+                        <StackPanel Orientation="Horizontal">
+                            <icons:PackIconMaterial Kind="WeatherNight" VerticalAlignment="Center"/>
+                            <TextBlock Text="Dark" Margin="8,0,0,0"/>
+                        </StackPanel>
+                    </ListBoxItem>
+                </ListBox>
+                <Border Style="{StaticResource CompilePal.Card}" Padding="16">
+                    <StackPanel>
+                        <TextBlock Style="{StaticResource CompilePal.SectionTitle}" Text="Error lookup"/>
+                        <Label Target="{Binding ElementName=ErrorSourceURL}" Padding="0" Margin="0,12,0,4" Content="Error source URL"/>
+                        <TextBox Name="ErrorSourceURL" Text="{Binding ErrorSourceURL}" Padding="8,5"/>
+                        <Label Target="{Binding ElementName=ErrorCacheDurationDays}" Padding="0" Margin="0,10,0,4" Content="Cache duration (days)"/>
+                        <TextBox Name="ErrorCacheDurationDays" Text="{Binding ErrorCacheExpirationDays}" Padding="8,5"
+                                 Width="80" HorizontalAlignment="Left" PreviewTextInput="ErrorCacheDurationDays_PreviewTextInput"/>
+                    </StackPanel>
+                </Border>
+                <Border Style="{StaticResource CompilePal.Card}" Padding="16,12" Margin="0,10,0,0">
+                    <CheckBox IsChecked="{Binding PlaySoundOnCompileCompletion}" Content="Play a sound when a compile finishes"/>
+                </Border>
             </StackPanel>
         </ScrollViewer>
-        <Button Grid.Row="1" Click="SaveButton_Click">Save</Button>
+        <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,16,0,0">
+            <Button Content="Cancel" Style="{StaticResource CompilePal.Button}" IsCancel="True"/>
+            <Button Content="Save settings" Style="{StaticResource CompilePal.PrimaryButton}" Margin="8,0,0,0"
+                    IsDefault="True" Click="SaveButton_Click"/>
+        </StackPanel>
     </Grid>
 </controls:MetroWindow>

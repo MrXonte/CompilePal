@@ -151,7 +151,7 @@ namespace CompilePalX.Compilers.UtilityProcess
                         FontSize = paragraphSize
                     };
                     if (_targetParticles.Contains(name))
-                        particleName.Foreground = TryFindResource("MahApps.Brushes.Accent") as SolidColorBrush;
+                        particleName.SetResourceReference(TextElement.ForegroundProperty, "CompilePal.Brushes.Accent");
 
                     fileInfo.Document.Blocks.Add(particleName);
                 }
